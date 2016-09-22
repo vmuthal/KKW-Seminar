@@ -81,10 +81,11 @@ if (isset($_SESSION['simpleLoggedIn'])) {
         if (isset($_POST['todo'])) {
             $todo = $_POST['todo'];
             $user_id = $_SESSION['simpleUserId'];
-
+	    $is_complete = 0;
             if (!empty($todo)) {
-                $stmt = $dbh->prepare("INSERT INTO todos (todo, user) VALUES (:todo, :user)");
+                $stmt = $dbh->prepare("INSERT INTO todos (todo, is_complete, user) VALUES (:todo,:is_complete,:user)");
                 $stmt->bindParam(':todo', $todo);
+		$stmt->bindParam(':is_complete', $is_complete);
                 $stmt->bindParam(':user', $user_id);
                 $stmt->execute();
                 header('Location: index.php');
